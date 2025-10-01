@@ -1,3 +1,41 @@
 {
-  "extends": ["github>thecloudsolutions/.github"]
+    "extends": ["config:recommended", ":preserveSemverRanges"],
+    "prCreation": "immediate"
+    "baseBranches": ["main", "master"],
+    "labels": ["auto-update"],
+    "dependencyDashboardAutoclose": true,
+    "timezone": "Europe/Sofia",
+    "enabledManagers": ["terraform", "github-actions"],
+    "packageRules": [
+        {
+            "groupName": "Terraform Code Update",
+            "groupSlug": "terraform",
+            "description": "Updates for minor and patch versions of Terraform",
+            "matchPaths": ["**.tf", "!examples/**"],
+            "matchManagers": ["terraform"],
+            "matchPackagePatterns": ["^terraform-.*"],
+            "matchRepositoryPatterns": ["^thecloudsolutions/terraform-.*"],
+            "updateTypes": ["minor", "patch"]
+        },
+        {
+            "groupName": "Terraform Examples Update",
+            "groupSlug": "terraform-examples",
+            "description": "Updates for minor and patch versions of Terraform examples",
+            "matchPaths": ["examples/**.tf"],
+            "matchManagers": ["terraform"],
+            "matchPackagePatterns": ["^terraform-.*"],
+            "matchRepositoryPatterns": ["^thecloudsolutions/terraform-.*"],
+            "updateTypes": ["minor", "patch"],
+            "labels": ["no-release"]
+        },
+        {
+            "groupName": "GitHub Actions Update",
+            "groupSlug": "github-actions",
+            "description": "Updates for minor and patch versions of GitHub Actions",
+            "matchPaths": [".github/workflows/**"],
+            "matchManagers": ["github-actions"],
+            "updateTypes": ["minor", "patch"],
+            "labels": ["no-release"]
+        }
+    ]
 }

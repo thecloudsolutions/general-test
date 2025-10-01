@@ -1,6 +1,6 @@
 {
     "extends": ["config:recommended", ":preserveSemverRanges"],
-    "prCreation": "immediate"
+    "prCreation": "immediate",
     "baseBranches": ["main", "master"],
     "labels": ["auto-update"],
     "dependencyDashboardAutoclose": true,

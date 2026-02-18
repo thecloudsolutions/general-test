@@ -1,0 +1,87 @@
+{{- defineDatasource "config" .Env.README_YAML | regexp.Replace ".*" "" -}}
+{{- $deprecated := has (ds "config") "deprecated" }}
+{{- $repo_name := (ds "config").github_repo | regexp.Replace "/" "%2F" -}}
+
+<!-- markdownlint-disable -->
+{{- if $deprecated }}[![deprecated](https://img.shields.io/badge/lifecycle-deprecated-critical)](#deprecated){{ end }}
+
+{{- if has (ds "config") "badges" }}
+  {{- range $badge := (ds "config").badges }}
+[![{{ $badge.name }}]({{ regexp.Replace "github_repo" $repo_name $badge.image }})]({{ regexp.Replace "github_repo" $repo_name $badge.url }})
+  {{- end }}
+{{- end }}
+
+{{ if has (ds "config") "github_repo" }}
+  # {{ (ds "config").github_repo }}
+{{- end }}
+
+[![Cloud Solutions Banner][banner]](https://thecloudsolutions.com/)
+
+[![Sponsor Us](https://img.shields.io/badge/sponsor_us-FF9800?style=for-the-badge)](https://github.com/sponsors/thecloudsolutions)
+[![Hire Us](https://img.shields.io/badge/hire_us-009FD2?style=for-the-badge)](https://thecloudsolutions.com/contact-us)
+[![Maintained By](https://img.shields.io/badge/maintained_by-Cloud_Solutions-6150E8?style=for-the-badge)](https://thecloudsolutions.com/)
+
+{{ if has (ds "config") "banner" }}
+  ![{{(ds "config").name}}]({{ (ds "config").banner }})
+{{- end -}}
+
+{{ if has (ds "config") "description" }}
+  ## Description
+  {{ (ds "config").description }}
+{{- end }}
+
+{{ if has (ds "config") "variable_naming" }}
+  ## Variable Naming
+  {{ (ds "config").variable_naming }}
+{{- end }}
+
+{{ if has (ds "config") "usage" }}
+  ## Usage
+{{ (ds "config").usage }}
+
+{{ end }}
+
+{{- if has (ds "config") "include" }}
+{{- range $file := (ds "config").include }}
+{{- if (file.Exists $file) }}
+{{- file.Read $file | strings.TrimSuffix "\n" }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{ if has (ds "config") "quick_start" }}
+  ## Quick Start
+  {{ (ds "config").quick_start -}}
+{{ end }}
+
+{{ if has (ds "config") "about_us" }}
+  ## About Us
+  {{ (ds "config").about_us -}}
+{{ end }}
+
+{{ if has (ds "config") "contributing" }}
+  ## Contributing
+  {{ (ds "config").contributing -}}
+{{ end }}
+
+{{ if has (ds "config") "blog" }}
+  ## Blog
+  {{ (ds "config").blog -}}
+{{ end }}
+
+{{ if eq (ds "config").license "APACHE2" }}
+  ## License
+  The project is 100% Open Source and licensed under the [APACHE2](LICENSE).
+{{ end }}
+
+{{ if has (ds "config") "trademarks" }}
+  ## Trademarks
+  {{ (ds "config").trademarks -}}
+{{ end }}
+
+{{ if has (ds "config") "copyrights" }}
+  ## Copyrights
+  {{ (ds "config").copyrights -}}
+{{ end }}
+
+[banner]: https://github.com/thecloudsolutions/.github/blob/main/profile/banner.png
